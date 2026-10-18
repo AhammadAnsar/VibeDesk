@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+      (function () {
+        try {
+          var origFetch = window.fetch ? window.fetch.bind(window) : undefined;
+          if (origFetch) {
+            try {
+              if (typeof Window !== 'undefined' && Window.prototype) {
+                Object.defineProperty(Window.prototype, 'fetch', {
+                  value: origFetch,
+                  writable: true,
+                  configurable: true,
+                  enumerable: true,
+                });
+              }
+            } catch (e) {}
+            try {
+              Object.defineProperty(window, 'fetch', {
+                value: origFetch,
+                writable: true,
+                configurable: true,
+                enumerable: true,
+              });
+            } catch (e) {}
+          }
+
+          window.addEventListener(
+            'error',
+            function (event) {
+              var src = (event && event.filename) || '';
+              var msg = (event && event.message) || '';
+              if (
+                src.indexOf('chrome-extension://') === 0 ||
+                msg.indexOf('Cannot set property fetch of #<Window>') !== -1
+              ) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                return false;
+              }
+            },
+            true
+          );
+
+          window.addEventListener(
+            'unhandledrejection',
+            function (event) {
+              var reason = event && event.reason;
+              var stack = (reason && reason.stack) || '';
+              var msg = (reason && reason.message) || String(reason || '');
+              if (
+                stack.indexOf('chrome-extension://') !== -1 ||
+                msg.indexOf('Cannot set property fetch of #<Window>') !== -1
+              ) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                return false;
+              }
+            },
+            true
+          );
+        } catch (err) {}
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VibeDesk – Everyday Digital Tools, Beautifully Simple</title>
+    <meta name="description" content="Edit, convert, calculate and get things done with free, privacy-first browser utilities. Merge PDFs, compress images, convert units, and format code locally." />
+    <meta property="og:title" content="VibeDesk – Everyday Digital Tools, Beautifully Simple" />
+    <meta property="og:description" content="Edit, convert, calculate and get things done with free, privacy-first browser utilities. Merge PDFs, compress images, convert units, and format code locally." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="VibeDesk" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="VibeDesk – Everyday Digital Tools, Beautifully Simple" />
+    <meta name="twitter:description" content="Edit, convert, calculate and get things done with free, privacy-first browser utilities." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "VibeDesk",
+        "url": "https://vibedesk.si",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "description": "Free, fast and privacy-first browser-based utilities for PDF management, image optimization, calculators, converters, and developer tools.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "SoftDows"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#4F46E5]/15 selection:text-[#4F46E5]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

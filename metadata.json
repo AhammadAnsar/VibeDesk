@@ -1,0 +1,6 @@
+{
+  "name": "VibeDesk",
+  "description": "Free, fast, and privacy-first browser-based utilities for PDF management, image optimization, calculators, converters, and developer tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
